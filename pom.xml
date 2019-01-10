@@ -16,6 +16,7 @@
 	</parent>
 
     <modules>
+        <module>renren-server</module>
         <module>renren-common</module>
         <module>renren-admin</module>
         <module>renren-api</module>
