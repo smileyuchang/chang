@@ -5,6 +5,7 @@ import io.renren.annotation.Login;
 import io.renren.annotation.LoginUser;
 import io.renren.common.utils.R;
 import io.renren.modules.apiuser.entity.UserEntity;
+import io.renren.test.MapTest;
 import io.renren.test.rabbitmq.MessageProvider;
 import io.renren.test.rabbitmq.QueueEnum;
 import io.renren.test.rabbitmq.Sender;
@@ -52,6 +53,9 @@ public class ApiTestController {
         return R.ok().put("msg", "无需token也能访问。。。");
     }
 
+    /**
+     * rabbitMQ延时消费
+     */
     @PostMapping("testRabbitMQ")
     public void testRabbitMQ(){
         //sender.sendFanout();
@@ -60,6 +64,11 @@ public class ApiTestController {
                 QueueEnum.MESSAGE_TTL_QUEUE.getExchange(),
                 QueueEnum.MESSAGE_TTL_QUEUE.getRouteKey(),
                 10000);
+    }
+
+    @PostMapping("testListGroup")
+    public R testListGroup(){
+        return R.ok().put("data", MapTest.test3());
     }
 
 }
