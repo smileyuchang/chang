@@ -50,7 +50,7 @@ public class ApiTestController {
     @GetMapping("notToken")
     @ApiOperation("忽略Token验证测试")
     public R notToken(){
-        return R.ok().put("msg", "无需token也能访问。。。");
+        return R.ok().put("msg", "无需token也能访问。。。" + "jenkins测试");
     }
 
     /**
