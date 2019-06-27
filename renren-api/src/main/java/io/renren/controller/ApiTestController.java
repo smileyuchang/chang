@@ -5,13 +5,17 @@ import io.renren.annotation.Login;
 import io.renren.annotation.LoginUser;
 import io.renren.common.utils.R;
 import io.renren.modules.apiuser.entity.UserEntity;
+import io.renren.test.MapTest;
+import io.renren.test.rabbitmq.MessageProvider;
+import io.renren.test.rabbitmq.QueueEnum;
+import io.renren.test.rabbitmq.Sender;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
+
+import java.util.Date;
 
 /**
  * 测试接口
@@ -24,6 +28,10 @@ import springfox.documentation.annotations.ApiIgnore;
 @RequestMapping("/api")
 @Api(tags="测试接口")
 public class ApiTestController {
+    @Autowired
+    private Sender sender;
+    @Autowired
+    private MessageProvider messageProvider;
 
     @Login
     @GetMapping("userInfo")
@@ -43,6 +51,24 @@ public class ApiTestController {
     @ApiOperation("忽略Token验证测试")
     public R notToken(){
         return R.ok().put("msg", "无需token也能访问。。。");
+    }
+
+    /**
+     * rabbitMQ延时消费
+     */
+    @PostMapping("testRabbitMQ")
+    public void testRabbitMQ(){
+        //sender.sendFanout();
+        // 测试延迟10秒
+        messageProvider.sendMessage("测试延迟消费,写入时间：" + new Date(),
+                QueueEnum.MESSAGE_TTL_QUEUE.getExchange(),
+                QueueEnum.MESSAGE_TTL_QUEUE.getRouteKey(),
+                10000);
+    }
+
+    @PostMapping("testListGroup")
+    public R testListGroup(){
+        return R.ok().put("data", MapTest.test3());
     }
 
 }
