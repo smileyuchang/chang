@@ -1,13 +1,12 @@
 package io.renren.controller;
 
 
+import com.alibaba.nacos.api.config.annotation.NacosValue;
 import io.renren.annotation.Login;
 import io.renren.annotation.LoginUser;
 import io.renren.common.utils.R;
 import io.renren.modules.apiuser.entity.UserEntity;
 import io.renren.test.MapTest;
-import io.renren.test.rabbitmq.MessageProvider;
-import io.renren.test.rabbitmq.QueueEnum;
 import io.renren.test.rabbitmq.Sender;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -15,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
-import java.util.Date;
 
 /**
  * 测试接口
@@ -30,8 +28,20 @@ import java.util.Date;
 public class ApiTestController {
     @Autowired
     private Sender sender;
-    @Autowired
-    private MessageProvider messageProvider;
+   /* @Autowired
+    private MessageProvider messageProvider;*/
+    /**
+     * ---------------------------------------------------------------------
+     * 通过 Nacos 的 @NacosValue 注解设置属性值
+     * 测试nacos
+     */
+    @NacosValue(value = "${useLocalCache:false}", autoRefreshed = true)
+    private boolean useLocalCache;
+    @RequestMapping(value = "/get")
+    public boolean get() {
+        return useLocalCache;
+    }
+    //---------------------------------------------------------------------------
 
     @Login
     @GetMapping("userInfo")
@@ -56,7 +66,7 @@ public class ApiTestController {
     /**
      * rabbitMQ延时消费
      */
-    @PostMapping("testRabbitMQ")
+   /* @PostMapping("testRabbitMQ")
     public void testRabbitMQ(){
         //sender.sendFanout();
         // 测试延迟10秒
@@ -64,7 +74,7 @@ public class ApiTestController {
                 QueueEnum.MESSAGE_TTL_QUEUE.getExchange(),
                 QueueEnum.MESSAGE_TTL_QUEUE.getRouteKey(),
                 10000);
-    }
+    }*/
 
     @PostMapping("testListGroup")
     public R testListGroup(){

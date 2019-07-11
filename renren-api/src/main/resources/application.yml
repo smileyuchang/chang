@@ -25,6 +25,8 @@ spring:
     password: cookie
     virtual-host: /vhost_order
 
+
+
   redis:
     database: 0
     host: localhost
@@ -79,3 +81,9 @@ logging:
   level.io.renren: debug
   path: logs/
   file: api.log
+#整合nacos
+nacos:
+  config:
+    server-addr: 58.87.92.13:8848
+  discovery:
+    server-addr: 58.87.92.13:8848
