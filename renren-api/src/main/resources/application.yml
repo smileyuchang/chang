@@ -18,6 +18,13 @@ spring:
       max-file-size: 100MB
       max-request-size: 100MB
       enabled: true
+  rabbitmq:
+    host: 192.168.40.3
+    port: 5672
+    username: cookie
+    password: cookie
+    virtual-host: /vhost_order
+
   redis:
     database: 0
     host: localhost
