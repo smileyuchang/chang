@@ -99,7 +99,7 @@ public class MapTest {
             }
         }
     */
-
+    //List<Map<String,Object>> 分组
     public static Object test2 (){
         Map<String,Object> map1 = new HashMap<>();
         map1.put("itemName","iphone");
