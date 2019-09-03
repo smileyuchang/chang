@@ -1,12 +1,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>io.renren</groupId>
-    <artifactId>renren-security</artifactId>
+    <groupId>com.chang</groupId>
+    <artifactId>chang</artifactId>
     <version>3.2.0</version>
     <packaging>pom</packaging>
 
-    <name>renren-security</name>
+    <name>chang</name>
     <url>http://www.renren.io</url>
 
 	<parent>
@@ -16,11 +16,11 @@
 	</parent>
 
     <modules>
-        <module>renren-server</module>
-        <module>renren-common</module>
-        <module>renren-admin</module>
-        <module>renren-api</module>
-        <module>renren-generator</module>
+        <module>server</module>
+        <module>common</module>
+        <module>admin</module>
+        <module>api</module>
+        <module>generator</module>
     </modules>
 
     <properties>
