@@ -1,3 +1,4 @@
+/*
 package com.chang.test.rabbitmq;
 
 import org.slf4j.Logger;
@@ -29,4 +30,4 @@ public class Receiver {
 
 
 
-}
+}*/

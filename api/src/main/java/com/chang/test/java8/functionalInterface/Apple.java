@@ -1,4 +1,4 @@
-package com.chang.test.java8;
+package com.chang.test.java8.functionalInterface;
 
 import lombok.Data;
 

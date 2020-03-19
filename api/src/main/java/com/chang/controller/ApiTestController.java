@@ -1,17 +1,17 @@
 package com.chang.controller;
 
 
-import com.chang.annotation.LoginUser;
 import com.chang.annotation.Login;
+import com.chang.annotation.LoginUser;
 import com.chang.common.utils.R;
 import com.chang.modules.apiuser.entity.UserEntity;
 import com.chang.test.MapTest;
-import com.chang.test.rabbitmq.Sender;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
+
+//import com.chang.test.rabbitmq.Sender;
 
 
 /**
@@ -25,8 +25,8 @@ import springfox.documentation.annotations.ApiIgnore;
 @RequestMapping("/api")
 @Api(tags="测试接口")
 public class ApiTestController {
-    @Autowired
-    private Sender sender;
+   /* @Autowired
+    private Sender sender;*/
   
     //---------------------------------------------------------------------------
 
