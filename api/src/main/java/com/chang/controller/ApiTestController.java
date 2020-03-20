@@ -8,6 +8,7 @@ import com.chang.modules.apiuser.entity.UserEntity;
 import com.chang.test.MapTest;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
@@ -24,6 +25,7 @@ import springfox.documentation.annotations.ApiIgnore;
 @RestController
 @RequestMapping("/api")
 @Api(tags="测试接口")
+@RefreshScope
 public class ApiTestController {
    /* @Autowired
     private Sender sender;*/
