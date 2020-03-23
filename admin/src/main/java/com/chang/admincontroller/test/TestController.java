@@ -7,20 +7,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.Map;
 
 @RestController
-@RequestMapping("/sys/user")
+@RequestMapping("/test")
 public class TestController {
     @Autowired
     private SysUserService sysUserService;
+    @Autowired private RestTemplate restTemplate;
     /**
      * 所有用户列表
      */
-    @RequestMapping("/list")
-    public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = sysUserService.queryPage(params);
-        return R.ok().put("page", page);
+    @RequestMapping("/nacos")
+    public Object list(@RequestParam Map<String, Object> params){
+       return restTemplate.getForObject("http://nacos-provide/api/notToken",Object.class);
     }
 }
