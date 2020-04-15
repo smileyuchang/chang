@@ -17,9 +17,7 @@ public class TestController {
     @Autowired
     private SysUserService sysUserService;
     @Autowired private RestTemplate restTemplate;
-    /**
-     * 所有用户列表
-     */
+
     @RequestMapping("/nacos")
     public Object list(@RequestParam Map<String, Object> params){
        return restTemplate.getForObject("http://nacos-provide/api/notToken",Object.class);
