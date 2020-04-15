@@ -1,5 +1,7 @@
 package com.chang.test.thread;
 
+import lombok.val;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -57,6 +59,8 @@ public class PublishMsgTest {
                 e.printStackTrace();
             }
         }
+        //关闭线程池 ---yc
+        service.shutdownNow();
         System.out.println("发送消息结束，耗时：" + (System.nanoTime() - begin) / 1000_000d);
         return ai.get();
     }
@@ -80,4 +84,5 @@ public class PublishMsgTest {
         }
         return 1;
     }
+
 }
