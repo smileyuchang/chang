@@ -70,4 +70,9 @@ public class ApiTestController {
         return R.ok().put("data", MapTest.test3());
     }
 
+    @PostMapping("testMap")
+    public Object testMap(){
+        return new MapTest().test();
+    }
+
 }

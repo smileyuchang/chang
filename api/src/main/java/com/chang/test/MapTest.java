@@ -10,37 +10,33 @@ import java.util.stream.Collectors;
 public class MapTest {
 
     /*
-     {
-        "msg": "success",
-        "mapTest": [
+    [
+    {
+        "items": [
             {
-                "items": [
-                    {
-                        "itemName": "iphone",
-                        "price": "10000",
-                        "count": "100"
-                    },
-                    {
-                        "itemName": "iphone",
-                        "price": "9000",
-                        "count": "10"
-                    }
-                ],
-                "name": "iphone"
+                "itemName": "iphone",
+                "price": "10000",
+                "count": "100"
             },
             {
-                "items": [
-                    {
-                        "itemName": "华为",
-                        "price": "10000",
-                        "count": "100"
-                    }
-                ],
-                "name": "华为"
+                "itemName": "iphone",
+                "price": "9000",
+                "count": "10"
             }
         ],
-        "code": 0
+        "name": "iphone"
+    },
+    {
+        "items": [
+            {
+                "itemName": "华为",
+                "price": "10000",
+                "count": "100"
+            }
+        ],
+        "name": "华为"
     }
+]
     */
     public static List<ReturnWrap> test (){
         List<ReturnWrap> returnWapList = new ArrayList<ReturnWrap>();
@@ -61,14 +57,31 @@ public class MapTest {
         goodsList.add(map2);
         goodsList.add(map3);
 
-        for (Map<String,Object> map : goodsList) {
+      /*  for (Map<String,Object> map : goodsList) {
             boolean flag = false;
             if (!flag) {
                 List<Map<String,Object>> itemList  = new ArrayList<Map<String,Object>>();
                 itemList.add(map);
                 returnWapList.add(new ReturnWrap(itemList, map.get("itemName").toString()));
             }
+        }*/
+        for (Map<String,Object> map : goodsList) {
+            boolean flag = false;
+            for (ReturnWrap wrap : returnWapList) {
+                if (wrap.getName().equals(map.get("itemName").toString())) {
+                    flag = true;
+                    wrap.getItems().add(map);
+                    break;
+                }
+            }
+
+            if (!flag) {
+                List<Map<String,Object>> itemList  = new ArrayList<Map<String,Object>>();
+                itemList.add(map);
+                returnWapList.add(new ReturnWrap(itemList, map.get("itemName").toString()));
+            }
         }
+        System.out.println(returnWapList);
         return returnWapList;
     }
 
@@ -188,7 +201,7 @@ public class MapTest {
 
     public static void main(String[] args) {
         MapTest mapTest = new MapTest();
-        mapTest.test();
+        System.out.println(mapTest.test());
     }
 }
 
