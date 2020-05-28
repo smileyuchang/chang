@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,12 +28,15 @@ public class GetAuthToken {
     //867a300fa8f0aa822685c9f1edb60a7a
     public static void main(String[] args) throws Exception{
         //System.out.println("access_token=====" + getAuth(API_KEY, SECRET_KEY));
-       /* try {
-            add(access_token);
+    /*    try {
+            add();
         } catch (Exception e) {
             e.printStackTrace();
         }*/
-       search();
+      search();
+        //match("867a300fa8f0aa822685c9f1edb60a7a","85e429969735d97fb060044d99864d1e");
+        //match("b63e92e9440f8c6747b83b4fc03d31c5","867a300fa8f0aa822685c9f1edb60a7a");
+        //faceSearch();
     }
 
     /**
@@ -89,18 +93,19 @@ public class GetAuthToken {
      * @return
      * @throws Exception
      */
-    public static String add(String accessToken) throws Exception {
-
+    public static String add() throws Exception {
+        String accessToken = getAuth(API_KEY, SECRET_KEY);
         byte[] bytes1 = FileUtil.readFileByBytes("/Users/yuchang/Downloads/李克强.jpeg");
         //String image1 = Base64Util.encode(getImgerFormNetByUrl(url));
         String image1 = Base64Util.encode(bytes1);
+        System.out.println(image1);
         // 请求url
         String url = "https://aip.baidubce.com/rest/2.0/face/v3/faceset/user/add";
         try {
             Map<String, Object> map = new HashMap<String, Object>();
             map.put("image", image1);
             map.put("group_id", "group_repeat");
-            map.put("user_id", "likeqiang");
+            map.put("user_id", "04683e0a5eb040a0a320b7fa18d410c99260");
             map.put("user_info", "abc");
             map.put("liveness_control", "NORMAL");
             //map.put("image_type", "FACE_TOKEN");
@@ -112,7 +117,9 @@ public class GetAuthToken {
             // 客户端可自行缓存，过期后重新获取。
             String result = HttpUtil.post(url, accessToken, "application/json", param);
             System.out.println(result);
-            return result;
+            SerachResult serachResult = gson.fromJson(result,SerachResult.class);
+            System.out.println("face_token=====" + serachResult.getResult().getFace_token());
+            return serachResult.getResult().getFace_token();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -121,11 +128,13 @@ public class GetAuthToken {
 
     public static String search() throws Exception {
 
-        byte[] bytes1 = FileUtil.readFileByBytes("/Users/yuchang/Downloads/李克强.jpeg");
+        //byte[] bytes1 = FileUtil.readFileByBytes("/Users/yuchang/Downloads/李克强.jpeg");
         //String image1 = Base64Util.encode(getImgerFormNetByUrl(url));
-        String image1 = Base64Util.encode(bytes1);
+        //String image1 = Base64Util.encode(bytes1);
+        String image1 = FileUtil.imgBase64("http://weiwangzhan.youyitong365.com/yuyingshidiyijie.jpg");
         // 请求url
         String url = "https://aip.baidubce.com/rest/2.0/face/v3/search";
+        //String url = "https://aip.baidubce.com/rest/2.0/face/v3/multi-search";
         try {
             Map<String, Object> map = new HashMap<>();
             map.put("image", image1); //图片base64数据
@@ -148,6 +157,84 @@ public class GetAuthToken {
         }
         return null;
     }
+
+
+
+    /**
+     * 人脸对比
+     * @return
+     */
+    public static MatchResult match(String facetoken1,String facetoke2) {
+        String accessToken = getAuth(API_KEY, SECRET_KEY);
+        // 请求url
+        String url = "https://aip.baidubce.com/rest/2.0/face/v3/match";
+        try {
+
+			/*byte[] bytes1 = FileUtil.readFileByBytes("D:\\pic\\22.jpg");
+			byte[] bytes2 = FileUtil.readFileByBytes("D:\\pic\\33.jpg");
+			String image1 = Base64Util.encode(bytes1);
+			String image2 = Base64Util.encode(bytes2);*/
+
+            List<Map<String, Object>> images = new ArrayList<Map<String, Object>>();
+
+            Map<String, Object> map1 = new HashMap<String, Object>();
+            map1.put("image",facetoken1 );
+            map1.put("image_type", "FACE_TOKEN");
+            map1.put("face_type", "LIVE");
+            map1.put("quality_control", "LOW");
+            map1.put("liveness_control", "NORMAL");
+
+            Map<String, Object> map2 = new HashMap<String, Object>();
+            map2.put("image", facetoke2);
+            map2.put("image_type", "FACE_TOKEN");
+            map2.put("face_type", "LIVE");
+            map2.put("quality_control", "LOW");
+            map2.put("liveness_control", "NORMAL");
+
+            images.add(map1);
+            images.add(map2);
+            Gson gson = new Gson();
+            String param = gson.toJson(images);
+
+            String result = HttpUtil.post(url, accessToken, "application/json", param);
+            //System.out.println(result);
+            MatchResult matchResult = gson.fromJson(result,MatchResult.class);
+            return matchResult;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+
+    public static String faceSearch() {
+        // 请求url
+        String url = "https://aip.baidubce.com/rest/2.0/face/v3/search";
+        try {
+            Map<String, Object> map = new HashMap<>();
+            map.put("image", "867a300fa8f0aa822685c9f1edb60a7a");
+            map.put("liveness_control", "NORMAL");
+            map.put("group_id_list", "group_repeat");
+            map.put("image_type", "FACE_TOKEN");
+           // map.put("quality_control", "LOW");
+            Gson gson = new Gson();
+            String param = gson.toJson(map);
+
+            // 注意这里仅为了简化编码每一次请求都去获取access_token，线上环境access_token有过期时间， 客户端可自行缓存，过期后重新获取。
+            //String accessToken = "[调用鉴权接口获取的token]";
+            String accessToken = getAuth(API_KEY, SECRET_KEY);
+
+            String result = HttpUtil.post(url, accessToken, "application/json", param);
+            System.out.println(result);
+            return result;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
 
 }
 
