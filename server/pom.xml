@@ -15,7 +15,7 @@
 
 
     <properties>
-        <shiro.version>1.4.0</shiro.version>
+        <shiro.version>1.6.0</shiro.version>
         <quartz.version>2.3.0</quartz.version>
         <qiniu.version>[7.2.0, 7.2.99]</qiniu.version>
         <aliyun.oss.version>2.5.0</aliyun.oss.version>
